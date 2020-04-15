@@ -6,8 +6,6 @@ class Menu extends Phaser.Scene{
     preload(){
         // load audio
         this.load.audio('sfx_select', './assets/blip_select12.wav');
-        this.load.audio('sfx_explosion', './assets/explosion38.wav');
-        this.load.audio('sfx_rocket', './assets/rocket_shot.wav');
     }
 
     create(){
@@ -28,40 +26,38 @@ class Menu extends Phaser.Scene{
         // display menu text
         let centerX = game.config.width/2;
         let centerY = game.config.height/2;
-        let textSpacer = 64;
-
+        let textSpacer = 100;
+        
         this.add.text(centerX, centerY - textSpacer, 'ROCKET  PATROL', menuConfig).setOrigin(0.5);
-        this.add.text(centerX, centerY, 'Use ←→ arrows to move & (F) to Fire', menuConfig).setOrigin(0.5);
-        menuConfig.backgroundColor = '#00FF00';
-        menuConfig.color = '#000';
-        this.add.text(centerX, centerY + textSpacer, 'Press ← for Easy or → for Hard', menuConfig).setOrigin(0.5);
+        menuConfig.backgroundColor = 'pink';
+        this.add.text(centerX, centerY - textSpacer/3, 'Press 1 for singleplayer mode', menuConfig).setOrigin(0.5);
+        menuConfig.backgroundColor = 'lightblue';
+        this.add.text(centerX, centerY + textSpacer/3, 'Press 2 for two-player mode', menuConfig).setOrigin(0.5);
+        menuConfig.backgroundColor = 'lightgreen';
+        this.add.text(centerX, centerY + textSpacer, 'Press 3 for three-player mode', menuConfig).setOrigin(0.5);
         
         // define keys
-        keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
-        keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+        keyONE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ONE);
+        keyTWO = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.TWO);
+        keyTHREE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.THREE);
 
-        // launch the next scene
-        //this.scene.start("playScene");
     }
 
     update(){
-        if(Phaser.Input.Keyboard.JustDown(keyLEFT)){
-            // easy mode
-            game.settings = {
-                spaceshipSpeed: 3,
-                gameTimer: 60000
-            }
+        if(Phaser.Input.Keyboard.JustDown(keyONE)){
+            // singleplayer mode
             this.sound.play('sfx_select');
-            this.scene.start("playScene");
+            this.scene.start("OPMenuScene");
         }
-        if(Phaser.Input.Keyboard.JustDown(keyRIGHT)){
-            // hard mode
-            game.settings = {
-                spaceshipSpeed: 4,
-                gameTimer: 45000
-            }
+        if(Phaser.Input.Keyboard.JustDown(keyTWO)){
+            // two-player mode
             this.sound.play('sfx_select');
-            this.scene.start("playScene");
+            this.scene.start("TPMenuScene");
+        }
+        if(Phaser.Input.Keyboard.JustDown(keyTHREE)){
+            // three-player mode
+            this.sound.play('sfx_select');
+            this.scene.start("ThMenuScene");
         }
     }
 }
